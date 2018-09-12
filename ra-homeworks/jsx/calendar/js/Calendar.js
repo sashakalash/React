@@ -52,14 +52,14 @@ const Calendar = (props) => {
   
   const allDaysForWeeks = [];
   allDays.reduce((res, day) => {
+    res.push(day);
     if (res.length === 7) {
       allDaysForWeeks.push(res);
       res = [];
     }
-    res.push(day);
     return res;
   }, []);
-      
+
   const allMonth = allDaysForWeeks.map(week => <tr>{week}</tr>);
 
   return (
