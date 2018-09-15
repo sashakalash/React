@@ -6,9 +6,8 @@ const MessageHistory = ({list}) => {
   }
 
   const ChatItem = list.map(item => {
-    const ChatMessage = item.type !== 'message' ?
-      item.type === 'response' ? Response : Typing : 
-        Message;
+    const ChatMessage = item.type === 'message' ? Message :
+      item.type === 'response' ? Response : Typing; 
     return <ChatMessage key={item.id} from={item.from} message={item} />;
   });
   
