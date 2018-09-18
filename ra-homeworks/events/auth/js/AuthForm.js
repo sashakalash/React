@@ -46,12 +46,11 @@ const AuthForm = ({onAuth}) => {
   const SubmitForm = e => {
     e.preventDefault();
     const userInfo = {
-      name: nameField,
-      email: emailField,
-      password: PassField
+      name: nameField.value,
+      email: emailField.value,
+      password: PassField.value
     }
-    const formData = new FormData(userInfo);
-    onAuth && typeof onAuth === 'function'? onAuth(formData): null;
+    onAuth && typeof onAuth === 'function'? onAuth(userInfo): null;
   }
 
   return (
