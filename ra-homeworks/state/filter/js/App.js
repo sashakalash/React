@@ -4,14 +4,14 @@ class App extends React.Component {
   constructor (props) {
 		super(props);
 		this.state = {
-      selected: 'All',
+      selected: "All",
       projects: props.projects
     };
   }
   selectFilter(filter) {
     this.setState({
       selected: filter,
-      projects: filter === 'All'
+      projects: filter === "All"
         ? this.props.projects
         : this.props.projects.filter(project => project.category === filter)
     })    
