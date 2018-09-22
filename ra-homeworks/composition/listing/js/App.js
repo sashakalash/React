@@ -1,16 +1,29 @@
 'use strict';
 
-const App = ({items}) => (
-  <main>
-    {items.map(item => {
-      switch(item.type) {
-        case 'unisex':
-          return <Item color="black" item={item} />;
-        case 'male':
-          return <Item color="blue" item={item} />;
-        case 'female':
-          return <Item color="orange" item={item} />;
-      }
-    })}
-  </main>
-);
+const colorsTypes = {
+  unisex: 'black',
+  male: 'blue',
+  female: 'orange'
+}
+
+class ListItem extends React.Component {
+  render() {
+    const {item} = this.props;
+    const color = colorsTypes[item.type];
+    return <Item color={color} item={item}></Item>
+  }
+}
+
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return (
+      <main>
+        {items.map(item => <ListItem item={item}></ListItem>)}
+      </main>
+    )
+  }
+}
+
