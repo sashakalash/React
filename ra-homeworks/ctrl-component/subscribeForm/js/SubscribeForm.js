@@ -4,7 +4,7 @@ class SubscribeForm extends React.Component {
     super(props);
     this.state = {
       email: '',
-      isValid: '',
+      isValid: true,
       errStyle: {visibility: 'hidden'} 
     }
   }
@@ -13,22 +13,22 @@ class SubscribeForm extends React.Component {
     const valid = event.currentTarget.validity.valid;
     this.setState({
       email: event.currentTarget.value,
-      isValid: valid ? 'is-valid' : 'is-error',
-      errStyle: valid ? {visibility: 'hidden'} : {visibility: 'visible'}
+      isValid: !this.state.isValid,
     })
   }
 
   render() {
-    console.log(this.state)
     return (
       <form>
         <input
           type="email"
           value={this.state.email}
           onChange={this.emailValidate.bind(this)}
-          className={this.state.isValid}
+          className={this.state.isValid ? 'is-valid' : 'is-error'}
         />
-        <div style={this.state.errStyle}>Пожалуйста, проверьте корректность адреса электронной почты</div>
+        <div style={this.state.isValid ? {visibility: 'hidden'} : {visibility: 'visible'}}>
+          Пожалуйста, проверьте корректность адреса электронной почты
+        </div>
       </form>
     )
   }
