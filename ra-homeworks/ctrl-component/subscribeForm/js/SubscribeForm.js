@@ -1,18 +1,25 @@
 
-const ErrorMessage = props => props.isErr
-    ? <div>Пожалуйста, проверьте корректность адреса электронной почты</div>
-    : null;
-
 class SubscribeForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       email: '',
       isValid: '',
-      isErr: false
+      errStyle: {visibility: 'hidden'} 
     }
   }
+
+  emailValidate(event) {
+    const valid = event.currentTarget.validity.valid;
+    this.setState({
+      email: event.currentTarget.value,
+      isValid: valid ? 'is-valid' : 'is-error',
+      errStyle: valid ? {visibility: 'hidden'} : {visibility: 'visible'}
+    })
+  }
+
   render() {
+    console.log(this.state)
     return (
       <form>
         <input
@@ -21,17 +28,8 @@ class SubscribeForm extends React.Component {
           onChange={this.emailValidate.bind(this)}
           className={this.state.isValid}
         />
-        <ErrorMessage isErr={this.state.isErr}/>
+        <div style={this.state.errStyle}>Пожалуйста, проверьте корректность адреса электронной почты</div>
       </form>
     )
-  }
-
-  emailValidate(event) {
-    const valid = event.currentTarget.validity.valid;
-    this.setState({
-      email: event.currentTarget.value,
-      isValid: valid ? 'is-valid' : 'is-error',
-      isErr: !valid
-    })
   }
 }
