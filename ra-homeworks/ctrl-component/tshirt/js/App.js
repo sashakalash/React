@@ -22,7 +22,6 @@ class App extends React.Component {
     renderLines() {
         if (!this.state.selectedFont) return null;
         return this.state.text.split("\n").map((line, i) => {
-            console.log(line)
             return (
                 <div className="grid" key={`line-${i}`}>
                     <PictureFont text={line} path={this.state.selectedFont.path} />
