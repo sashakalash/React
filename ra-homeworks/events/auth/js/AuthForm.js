@@ -2,55 +2,51 @@
 
 const emailRegEx = /[^\w@._-]/;
 const passRegEx = /[^\w_]/;
+const dataToSend = {};
 
-const checkInput = e => {
-  const regEx = e.currentTarget.type === 'email' ? emailRegEx : passRegEx;
-  e.currentTarget.value = e.currentTarget.value.replace(regEx, '');
+const checkInput = (type, value) => {
+  const regEx = type === 'email' ? emailRegEx : passRegEx;
+  value = value.replace(regEx, '');
 }
 
-const AuthForm = ({onAuth}) => {
-  let nameField, emailField, PassField;
+const AuthForm = props => {
 
-  const NameBlock = props => (
+  const enterData = event => {
+    const eventType = event.currentTarget.type;
+    const eventKey = event.currentTarget.name;
+    const eventValue = event.currentTarget.value;
+    if (eventType === "email" || eventType === "password" ) {
+      checkInput(eventType, eventValue);
+    }
+    dataToSend[eventKey] = eventValue;
+  }
+
+  const NameBlock = () => (
     <div className="Input">
-      <input ref={element => nameField = element} required type="text" placeholder="Имя" />
+      <input onChange={enterData} required type="text" placeholder="Имя" name="name"/>
       <label></label>
     </div>
   )
 
-  const EmailBlock = props => (
+  const EmailBlock = () => (
     <div className="Input">
-      <input 
-      ref={element => emailField = element} 
-      onChange={checkInput}
-      type="email" 
-      placeholder="Электронная почта" 
-      />
+      <input onChange={enterData} type="email" placeholder="Электронная почта" name="email"/>
       <label></label>
     </div>
   )
 
-  const PassBlock = props => (
+  const PassBlock = () => (
     <div className="Input">
-      <input 
-      ref={element => PassField = element} 
-      onChange={checkInput}
-      required 
-      type="password" 
-      placeholder="Пароль" 
-      />
+      <input onChange={enterData} required type="password" placeholder="Пароль" name="password"/>
       <label></label>
     </div>
   )
 
   const SubmitForm = e => {
     e.preventDefault();
-    const userInfo = {
-      name: nameField.value,
-      email: emailField.value,
-      password: PassField.value
+    if (props.onAuth && typeof props.onAuth === 'function') {
+      props.onAuth(dataToSend);
     }
-    onAuth && typeof onAuth === 'function'? onAuth(userInfo): null;
   }
 
   return (
