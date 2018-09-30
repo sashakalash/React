@@ -1,25 +1,14 @@
 
 class TextRenderLine extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			text: this.props.value
-		}
-	}
-
-	typeText(event) {
-		this.setState({
-			text: event.currentTarget.value
-		})
+	typeText = (event) => {
 		this.props.onChange(event.currentTarget.value)
 	}
-
 	render() {
 		return (
 			<div className="type-text">
 				<textarea
-					value={this.state.text}
-					onChange={this.typeText.bind(this)}
+					value={this.props.value}
+					onChange={this.typeText}
 					name="text"
 					id="font-text"
 					cols="30"
