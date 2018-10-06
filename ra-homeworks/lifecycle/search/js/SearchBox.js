@@ -13,11 +13,14 @@ class SearchBox extends React.Component {
   }
 
   render() {
-    return <SearchBoxView SearchBoxViewField={el => {this.SearchBox = el}} fixed={this.state.fixed} />
+    return <SearchBoxView 
+      SectionField={el => this.SearchSectionBlock = el}
+      fixed={this.state.fixed} />
   }
 
   isFixed() {
-    return this.SearchBox.getBoundingClientRect().top <= 0;
+    const SearchSectionBlockCoord = this.SearchSectionBlock.getBoundingClientRect();
+    return SearchSectionBlockCoord.top <= 0; 
   }
 
   setPosition = () => {
