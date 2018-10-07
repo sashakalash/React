@@ -1,29 +1,28 @@
 'use strict';
 
-const GetWrapper = (ComponentsWrapper, Component) => {
+const ComponentMaker = Component => {
   return class extends React.Component {
     render() {
-      return ComponentsWrapper
-      ? <ComponentsWrapper><Component {...this.props}/></ComponentsWrapper> 
-      : <Component {...this.props}/>;
+      return <Component {...this.props}/>;
     }
   }
 }
 
-const ComponentInWrapper = Component => {
+const ComponentWrapping = (Component, Wrapper) => {
   return class extends React.Component {
     render() {
-      const typeOfWrapper = this.props.views < 100 ? New : this.props.views >= 1000 ? Popular : null;
-      const ComponentsWrapper = GetWrapper(typeOfWrapper, Component);
-      return <ComponentsWrapper {...this.props}/>;
+      return Wrapper ? <Wrapper><Component {...this.props}/></Wrapper> : <Component {...this.props}/>
     }
   }
 }
 
 const setTypeItem = item => {
   const componentType = item.type == 'video' ? Video : Article;
-  const NewComponent = ComponentInWrapper(componentType);
-  return <NewComponent {...item} /> ;
+  const typeOfWrapper = item.views < 100 ? New : item.views >= 1000 ? Popular : null;
+  const Component = ComponentMaker(componentType);
+  const ComponentWrapper = typeOfWrapper ? ComponentMaker(typeOfWrapper) : null;
+  const ComponentInWrapper = ComponentWrapping(Component, ComponentWrapper)
+  return <ComponentInWrapper {...item}/>
 }
 
 const List = props => props.list.map(setTypeItem);
