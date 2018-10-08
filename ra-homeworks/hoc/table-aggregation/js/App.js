@@ -1,5 +1,48 @@
 'use strict';
 
+const sortData = (list, parametr) => {
+  return list.sort((item1, item2) => 
+    item1[`${parametr}`] > item2[`${parametr}`]  
+    ? 1 : item1[`${parametr}`]  < item2[`${parametr}`]  
+      ? -1 : 0
+  );
+}
+
+const getSortDataName = (item, param) => {
+  const date = new Date(item.date);
+  if(param === 'month') { 
+    item.month= date.toLocaleString("en-us", { month: "short" });
+    item.monthNum = date.getMonth();
+  } else if (param === 'year') {
+    item.year = date.getFullYear();
+  }
+  return item;
+}
+
+const AggregationData = (items, param) => {
+  const sortArr = [];
+  items.map(item => {
+    item = getSortDataName(item, param);        
+    const data = sortArr.find(el => el[`${param}`] === item[`${param}`] );
+    data ? data.amount += item.amount : sortArr.push(item);
+  });
+  sortData(sortArr, param === 'month' ? 'monthNum' : param);
+  return sortArr;
+}
+
+const getParamName = (componentName) => {
+  switch (componentName) {
+    case 'MonthTable': {
+      return 'month';
+    };
+    case 'YearTable': {
+      return 'year';
+    };
+    case 'SortTable': {
+      return 'date';
+    };
+  }
+}
 
 const GetSortingTable = Component => {
   return class extends React.Component {
@@ -10,64 +53,13 @@ const GetSortingTable = Component => {
       }
     }
 
-    sortData(list, parametr) {
-      return list.sort((item1, item2) => item1[`${parametr}`] > item2[`${parametr}`]  ? 1 : item1[`${parametr}`]  < item2[`${parametr}`]  ? -1 : 0);
-    }
-
-    monthAggregation(items) {
-      const sortArr = [];
-      items.map(item => {
-        const date = new Date(item.date);
-        const monthNum = date.getMonth();
-        item.month = date.toLocaleString("en-us", { month: "short" });
-        const data = sortArr.find(el => el? el.month === item.month : null);
-        data ? data.amount += item.amount : sortArr[monthNum] = item;
-      });
-      return sortArr;
-    }
-
-    yearAggregation(items) {
-      const sortArr = [];
-      items.map(item => {
-        item.year = new Date(item.date).getFullYear();
-        const data = sortArr.find(el => el.year === item.year);
-        data ? data.amount += item.amount : sortArr.push(item)
-      });
-      this.sortData(sortArr, 'year')
-      return sortArr;
-    }
-
-    dateAggregation(items) {
-      const sortArr = [];
-      items.map(item => {
-        const data = sortArr.find(el => el.date === item.date);
-        data ? data.amount += item.amount : sortArr.push(item)
-      });
-      this.sortData(sortArr, 'date')
-      return sortArr;
-    }
-
     componentWillReceiveProps(newProps) {
-      switch (Component) {
-        case MonthTable: {
-          this.setState({
-            list: this.monthAggregation(newProps.list)
-          })
-        };
-        break;
-        case YearTable: {
-          this.setState({
-            list: this.yearAggregation(newProps.list)
-          })
-        };
-        break;
-        case SortTable: {
-          this.setState({
-            list: this.dateAggregation(newProps.list)
-          })
-        }
-      }
+      const param = getParamName(Component.name);      
+      this.setState({
+        list: AggregationData(newProps.list, param)
+      })
     }
+
     render() {
       return <Component list={this.state.list} />
     }
