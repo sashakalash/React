@@ -1,28 +1,47 @@
 'use strict';
 
-const ComponentMaker = Component => {
+const ComponentWrapping = () => {
   return class extends React.Component {
+    constructor(props) {
+      super(props);
+      this.state = {
+        Component: null,
+        Wrapper: null
+      }
+    }
+
+    ComponentMaker = Component => {
+      return class extends React.Component {
+        render() {
+          return <Component {...this.props}/>;
+        }
+      }
+    }
+
+    setTypeItem() {
+      this.setState({
+        Component: this.props.type == 'video' ? this.ComponentMaker(Video) : this.ComponentMaker(Article),
+        Wrapper: this.props.views < 100 
+          ? this.ComponentMaker(New) 
+          : this.props.views >= 1000 
+            ? this.ComponentMaker(Popular) 
+            : null
+      })
+    }
+
+    componentWillMount() {
+      this.setTypeItem();
+    }
+
     render() {
-      return <Component {...this.props}/>;
+      const Wrapper = this.state.Wrapper;
+      const Component = this.state.Component;
+      return this.state.Wrapper ? <Wrapper><Component {...this.props}/></Wrapper> : <Component {...this.props}/>
     }
   }
 }
 
-const ComponentWrapping = (Component, Wrapper) => {
-  return class extends React.Component {
-    render() {
-      return Wrapper ? <Wrapper><Component {...this.props}/></Wrapper> : <Component {...this.props}/>
-    }
-  }
-}
-
-const setTypeItem = item => {
-  const componentType = item.type == 'video' ? Video : Article;
-  const typeOfWrapper = item.views < 100 ? New : item.views >= 1000 ? Popular : null;
-  const Component = ComponentMaker(componentType);
-  const ComponentWrapper = typeOfWrapper ? ComponentMaker(typeOfWrapper) : null;
-  const ComponentInWrapper = ComponentWrapping(Component, ComponentWrapper)
-  return <ComponentInWrapper {...item}/>
-}
-
-const List = props => props.list.map(setTypeItem);
+const List = props => props.list.map(item => {
+  const Component = ComponentWrapping();
+  return <Component {...item}/>
+});
