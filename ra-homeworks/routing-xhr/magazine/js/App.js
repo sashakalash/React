@@ -11,8 +11,8 @@ class App extends React.Component {
         <Main />
         {/* <Switch> */}
           {/* <Route exact path="/" component={Main} /> */}
-          {/* <Route path='/article/:id' component={ArticlePage} /> */}
-          <Route path='./article/:id' render={() => <ArticlePage />}/>
+          <Route path="./article/:id" component={ArticlePage} />
+          
         {/* </Switch> */}
       </div>
     );
