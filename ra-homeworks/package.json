@@ -30,6 +30,7 @@
     "webpack": "^4.20.2"
   },
   "dependencies": {
+    "antd": "^3.10.1",
     "react-router-dom": "^4.3.1"
   }
 }
