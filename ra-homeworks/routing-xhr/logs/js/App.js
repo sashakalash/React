@@ -2,19 +2,15 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      logs: []
-    };
+      logs: this.props.logs
+    }
   }
-
-  componentDidMount() {
-    fetch('https://baconipsum.com/api/?type=meat-and-filler&paras=50')
-      .then(response => response.json())
-      .then(logs => this.setState({ logs }));
+  componentWillReceiveProps(newProps) {
+    this.setState({
+      logs: newProps.logs
+    })
   }
-
   render() {
-    const { logs } = this.state;
-
     return (
       <Router>
         <div>
@@ -28,10 +24,10 @@ class App extends React.Component {
           </ul>
           <Switch>
             <Route exact path="/">
-              <Current logs={logs} />
+              <Current {...this.state} />
             </Route>
             <Route path="/archive">
-              <Archive logs={logs} />
+              <Archive {...this.state} />
             </Route>
           </Switch>
         </div>
