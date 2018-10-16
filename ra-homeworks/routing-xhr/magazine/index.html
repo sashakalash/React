@@ -48,7 +48,7 @@
   <script type="text/babel">
   const {BrowserRouter} = ReactRouterDOM;
     ReactDOM.render(
-      <BrowserRouter>
+      <BrowserRouter basename="/routing-xhr/magazine/" getUserConfirmation={getConfirmation}>
         <App />
       </BrowserRouter>,
       document.getElementById('root')

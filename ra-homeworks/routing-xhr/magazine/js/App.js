@@ -1,6 +1,9 @@
 
-const {Route, Switch, withRouter, Link} = ReactRouterDOM;
-
+const {Route, Switch, withRouter, Link, Prompt} = ReactRouterDOM;
+const getConfirmation = (message, callback) => {
+  const allowTransition = window.confirm(message)
+  callback(allowTransition)
+} 
 
 class App extends React.Component {
   render() {
@@ -8,12 +11,11 @@ class App extends React.Component {
     return (
       <div>
         <Header />
-        <Main />
-        {/* <Switch> */}
-          {/* <Route exact path="/" component={Main} /> */}
-          <Route path="./article/:id" component={ArticlePage} />
-          
-        {/* </Switch> */}
+        <Switch>
+          <Route path="/article/:id" component={ArticlePage} />
+          <Route path="/subscribe" component={SubscribtionPage} />
+          <Route path="*" component={Main} />
+        </Switch>
       </div>
     );
   }

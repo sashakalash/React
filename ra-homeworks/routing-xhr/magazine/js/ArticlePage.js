@@ -1,6 +1,4 @@
 const ArticlePage = ({ location }) => {
-  console.log(location)
-
   const articleId = location.pathname.match(/^\/article\/(\d+)?$/i);
   const article = articles.find(a => a.id === parseInt(articleId[1]))
   return (
