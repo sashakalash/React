@@ -27,8 +27,9 @@
 
   <script type="text/babel" src="./js/Story.js"></script>
   <script type="text/babel" src="./js/Homepage.js"></script>
-  <script type="text/babel" src="./js/Header.js"></script>
   <script type="text/babel" src="./js/App.js"></script>
+  <script type="text/babel" src="./js/HeaderComponent.js"></script>
+
 
   <script type="text/babel">
     const ReactRouter = window.ReactRouterDOM;
@@ -37,13 +38,13 @@
     const NavLink = ReactRouter.NavLink;
     const Link = ReactRouter.Link;
     const Switch = ReactRouter.Switch;
-    const withRouter = ReactRouter.withRouter;
-
+    const withRouter = ReactRouterDOM.withRouter;
     ReactDOM.render(
       <App/>,
       document.getElementById('root')
     );
   </script>
+
 </body>
 
 </html>

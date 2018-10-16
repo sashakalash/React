@@ -1,5 +1,6 @@
 class App extends React.Component {
   render() {
+    const Header = withRouter(HeaderComponent);
     return (
       <Router>
         <div>
