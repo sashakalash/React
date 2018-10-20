@@ -6,55 +6,60 @@ const dataToSend = {};
 
 const checkInput = (type, value) => {
   const regEx = type === 'email' ? emailRegEx : passRegEx;
-  value = value.replace(regEx, '');
+  return value.replace(regEx, '');
+}
+
+const dataValidation = event => {
+  const data = event.currentTarget;
+  const eventType = data.type;
+  const eventValue = data.value;
+  if (eventType === "email" || eventType === "password" ) {
+    data.value = checkInput(eventType, eventValue);
+  }
+  return data.value;
 }
 
 const AuthForm = props => {
 
-  const enterData = event => {
-    const eventType = event.currentTarget.type;
-    const eventKey = event.currentTarget.name;
-    const eventValue = event.currentTarget.value;
-    if (eventType === "email" || eventType === "password" ) {
-      checkInput(eventType, eventValue);
-    }
-    dataToSend[eventKey] = eventValue;
-  }
-
   const NameBlock = () => (
     <div className="Input">
-      <input onChange={enterData} required type="text" placeholder="Имя" name="name"/>
+      <input required type="text" placeholder="Имя" name="name"/>
       <label></label>
     </div>
   )
 
   const EmailBlock = () => (
     <div className="Input">
-      <input onChange={enterData} type="email" placeholder="Электронная почта" name="email"/>
+      <input onChange={dataValidation} type="email" placeholder="Электронная почта" name="email"/>
       <label></label>
     </div>
   )
 
   const PassBlock = () => (
     <div className="Input">
-      <input onChange={enterData} required type="password" placeholder="Пароль" name="password"/>
+      <input onChange={dataValidation} required type="password" placeholder="Пароль" name="password"/>
       <label></label>
     </div>
   )
 
-  const SubmitForm = e => {
+  const submitForm = e => {
     e.preventDefault();
+    const data = new FormData(e.currentTarget);
+    const dataToSend = {};
+    for (const el of data) {
+      dataToSend[el[0]] = el[1];
+    }
     if (props.onAuth && typeof props.onAuth === 'function') {
       props.onAuth(dataToSend);
     }
   }
 
   return (
-    <form onSubmit={SubmitForm} className="ModalForm" action="/404/auth/" method="POST">
+    <form onSubmit={submitForm} className="ModalForm" action="/404/auth/" method="POST">
       <NameBlock />
       <EmailBlock />
       <PassBlock />
-      <button onClick={SubmitForm} type="submit">
+      <button type="submit">
         <span>Войти</span>
         <i className="fa fa-fw fa-chevron-right"></i>
       </button>
