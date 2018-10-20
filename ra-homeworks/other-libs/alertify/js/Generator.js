@@ -34,7 +34,7 @@ class Site extends React.Component {
 
   generate() {
     const newId = makeid(random(5, 43, false));
-
+    alertify.notify(`Новый ID: ${newId.length} символа`, "custom", 10);
     this.setState(prevState => ({
       ids: [...prevState.ids, newId],
     }));
