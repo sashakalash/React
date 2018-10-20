@@ -22,7 +22,10 @@ class ProgressBar extends React.Component {
   componentWillReceiveProps(newProps) {
     const progress = newProps.completed / newProps.total;
     let isBack, color;
-    if (progress > this.state.progress) {
+    console.log(progress, 'progress')
+    console.log(this.state.progress, 'this.state.progress')
+
+    if (progress >= this.state.progress) {
       isBack = false;
       color = '#96d6f4';
     } else {
