@@ -24,8 +24,7 @@ class SearchBox extends React.Component {
   }
 
   setPosition = () => {
-    this.setState({
-      fixed: this.isFixed()
-    })
+    const isNeedToFix = this.isFixed();
+    isNeedToFix !== this.state.fixed ? this.setState({fixed : isNeedToFix}) : null;
   }
 }
