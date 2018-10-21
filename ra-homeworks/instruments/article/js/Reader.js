@@ -12,8 +12,8 @@ class Reader extends React.Component {
   render() {
     return (
       <ReaderView
-        toNextPage={() => this.turnThePage(-1)}
-        toPrevPage={() => this.turnThePage(1)}
+        toNextPage={() => this.turnThePage(1)}
+        toPrevPage={() => this.turnThePage(-1)}
         currentPageNumber={this.state.currentPage}
         totalPages={this.state.pages.length}
         page={this.state.pages[this.state.currentPage - 1]}
@@ -21,10 +21,11 @@ class Reader extends React.Component {
     );
   }
 
-  turnThePage() {
-    const total = this.state.pages.length;
-
-    this.setState({ currentPage: total })
+  turnThePage(way) {
+    const expectedPage = this.state.currentPage + way;
+    this.setState({
+      currentPage: expectedPage > 0 ? expectedPage < this.state.pages.length ? expectedPage : this.state.pages.length : 1
+    })
   }
 }
 

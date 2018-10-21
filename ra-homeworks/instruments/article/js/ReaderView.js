@@ -9,10 +9,10 @@ const ReaderView = ({ toNextPage, toPrevPage, currentPageNumber, totalPages, pag
     </section>
 
     <section className="col-lg-6">
-      <button className="button" onClick={toNextPage}>назад</button>
+      <button className="button" onClick={toPrevPage}>назад</button>
     </section>
     <section className="col-lg-6">
-      <button className="button" onClick={toPrevPage}>вперед</button>
+      <button className="button" onClick={toNextPage}>вперед</button>
     </section>
   </section>
 );
