@@ -19,7 +19,7 @@ class MortgateCalculator extends React.Component {
     for (const el of data) {
       dataToSend[el[0]] = el[1];
     }
-    console.log(dataToSend)
+    console.log(JSON.stringify(dataToSend))
   }
   render() {
     return (
