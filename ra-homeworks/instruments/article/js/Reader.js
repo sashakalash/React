@@ -24,7 +24,9 @@ class Reader extends React.Component {
   turnThePage(way) {
     const expectedPage = this.state.currentPage + way;
     this.setState({
-      currentPage: expectedPage > 0 ? expectedPage < this.state.pages.length ? expectedPage : this.state.pages.length : 1
+      currentPage: expectedPage > 0 
+        ? expectedPage < this.state.pages.length 
+          ? expectedPage : this.state.pages.length : 1
     })
   }
 }
