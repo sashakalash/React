@@ -55,7 +55,6 @@ const FeedbackForm = props => {
  
   const handleChange = (e) => {
     e.preventDefault();
-    console.log(event.currentTarget)
     const data = new FormData(event.currentTarget)
     const dataToSend = {};
     for (const el of data) {
